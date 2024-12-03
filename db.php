@@ -1,15 +1,15 @@
 <?php
 
 // Database function, depending on the database you are using
-function connectDatabase($dbName) {
+function connectDatabase($db) {
     $host = 'localhost';
-    $user = 'user';
-    $pass = 'password';
+    $user = 'root';
+    $pass = '';
 
-    $conn = new mysqli($host, $user, $pass, $dbName);
+    $conn = new mysqli($host, $user, $pass, $db);
 
     if ($conn->connect_error) {
-        die("Connection failed to $dbName: " . $conn->connect_error);
+        die("Connection failed: " . $conn->connect_error);
     }
     return $conn;
 }

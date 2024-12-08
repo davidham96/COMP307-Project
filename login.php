@@ -27,8 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // If user exists
     if ($stmt_result->num_rows > 0) {
+        $user = $stmt_result->fetch_assoc();
+
+        session_start();
+        $_SESSION['user_id'] = $user['id'];
         echo "Logged in";
-    
+
     // New user
     } else {
         $stmt = $conn->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
@@ -39,6 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         // If user is created properly
         if ($stmt->execute()) {
+            session_start();
+            $_SESSION['user_id'] = $stmt->insert_id;
             echo "Signed up";
         
         // If there is an error

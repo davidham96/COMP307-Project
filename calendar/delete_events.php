@@ -1,10 +1,10 @@
 <?php
 session_start();
-include 'db.php';
+include '../db.php';
 
 $conn = connectDatabase('users');
 $user_id = $_SESSION['user_id'];
-$event_id = $_GET['id'];
+$event_id = $_POST['id'];
 
 // Delete event
 $stmt = $conn->prepare("DELETE FROM events WHERE id = ? AND user_id = ?");

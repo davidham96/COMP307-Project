@@ -1,15 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .calendar-container {
+            display: none;
+            width: 600px;
+            margin: 20px auto;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        #day-modal,
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        #overlay {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        #day-modal {
+            background: #fff;
+            width: 300px;
+            margin: auto;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid #ccc;
+            padding: 20px;
+            z-index: 999;
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Sign Up / Login Form -->
-    <form action="login.php" method="POST">
+    <!-- Login Form -->
+    <form id="login-form">
         <label for="email">McGill Email:</label>
         <input type="email" name="email" id="email" required>
         <br>
@@ -19,7 +69,212 @@
         <button type="submit">Sign Up / Login</button>
     </form>
 
+    <!-- Calendar -->
+    <div class="calendar-container" id="calendar-container">
+        <div id="month-year"></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+            </thead>
+            <tbody id="calendar-body">
+            </tbody>
+        </table>
+    </div>
 
+    <!-- Modal -->
+    <div id="overlay"></div>
+    <div id="day-modal">
+        <h3 id="modal-date"></h3>
+        <div id="events-list"></div>
+        <h4>Add Event</h4>
+        <form id="add-event-form">
+            <input type="hidden" id="add-event-date" name="event_date">
+            <textarea name="event_description" id="add-event-description" required></textarea><br>
+            <button type="submit">Submit</button>
+        </form>
+        <button id="close-modal-btn">Close</button>
+    </div>
+
+    <script>
+        // Initially no selected date from calendar
+        let selectedDate = null;
+
+        // POST loginData to login.php to authenticate user
+        document.getElementById('login-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const loginData = new FormData(this);
+
+            fetch('login.php', {
+                method: 'POST',
+                body: loginData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    if (data.includes("Logged in") || data.includes("Signed up")) {
+
+                        // Display calendar, and generate calendar
+                        document.getElementById('calendar-container').style.display = 'block';
+                        generateCalendar(new Date());
+                    }
+                });
+        });
+
+        // Create the calendar
+        function generateCalendar(date) {
+            const calendarBody = document.getElementById('calendar-body');
+            const monthYear = document.getElementById('month-year');
+            calendarBody.innerHTML = '';
+
+            // Set heading to current month and year
+            monthYear.textContent = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+            const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+
+            // Get last day of current month
+            const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+            let row = document.createElement('tr');
+
+            // Create empty cells before first day
+            for (let i = 0; i < firstDay; i++) {
+                row.appendChild(document.createElement('td'));
+            }
+
+            // Keep appending rows, resetting row after 7 cells
+            for (let day = 1; day <= daysInMonth; day++) {
+                if (row.children.length === 7) {
+                    calendarBody.appendChild(row);
+                    row = document.createElement('tr');
+                }
+
+                // Clicking a day calls openModal
+                const cell = document.createElement('td');
+                cell.textContent = day;
+                cell.onclick = () => openModal(new Date(date.getFullYear(), date.getMonth(), day, 12));
+                row.appendChild(cell);
+            }
+            calendarBody.appendChild(row);
+        }
+
+        // Modal
+        function openModal(date) {
+            selectedDate = date;
+
+            // Set date in modal, convert to year-month-day format
+            document.getElementById('modal-date').textContent = date.toDateString();
+            document.getElementById('events-list').innerHTML = '';
+
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const formattedDate = `${year}-${month}-${day}`;
+
+            document.getElementById('add-event-date').value = formattedDate;
+
+
+            // Display modal
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('day-modal').style.display = 'block';
+
+            fetch('calendar/calendar.php')
+                .then(response => response.json())
+                .then(events => {
+                    const filtered = events.filter(e => e.event_date === formattedDate);
+                    const eventsList = document.getElementById('events-list');
+
+                    // Display events for selected date
+                    filtered.forEach(event => {
+                        const div = document.createElement('div');
+                        div.textContent = event.event_description;
+
+                        // Edit button
+                        const editButton = document.createElement('button');
+                        editButton.textContent = 'Edit';
+                        editButton.onclick = () => editEvent(event.id, event.event_date, event.event_description);
+
+                        // Delete button
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Delete';
+                        deleteButton.onclick = () => deleteEvent(event.id);
+
+                        div.appendChild(document.createElement('br'));
+                        div.appendChild(editButton);
+                        div.appendChild(deleteButton);
+                        eventsList.appendChild(div);
+                    });
+                });
+        }
+
+        // Stop displaying modal on click
+        document.getElementById('close-modal-btn').addEventListener('click', closeModal);
+        function closeModal() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('day-modal').style.display = 'none';
+        }
+
+        // Add Event
+        document.getElementById('add-event-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            // POST event data to add_events.php
+            fetch('calendar/add_events.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    openModal(selectedDate);
+                    generateCalendar(new Date());
+                });
+        });
+
+        // Edit Event
+        function editEvent(id, event_date, event_description) {
+            const newDescription = prompt("Edit event description:", event_description);
+            if (newDescription !== null) {
+                const formData = new FormData();
+                formData.append('id', id);
+                formData.append('event_date', event_date);
+                formData.append('event_description', newDescription);
+
+                // POST edited event data to update_events.php
+                fetch('calendar/update_events.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.text())
+                    .then(data => {
+                        openModal(selectedDate);
+                        generateCalendar(new Date());
+                    });
+            }
+        }
+
+        // Delete Event
+        function deleteEvent(id) {
+            const formData = new FormData();
+            formData.append('id', id);
+            fetch('calendar/delete_events.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    openModal(selectedDate);
+                    generateCalendar(new Date());
+                });
+        }
+
+    </script>
 </body>
 
 </html>

@@ -4,16 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap">
     <title>Landing Page</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 300;
         }
 
         .calendar-container {
-            display: none;
-            width: 600px;
+            width: 100%;
+            max-width: 600px;
             margin: 20px auto;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 600px) {
+
+            th,
+            td {
+                font-size: 0.8em;
+                padding: 3px;
+                height: auto;
+            }
         }
 
         table {
@@ -230,6 +244,8 @@
         }
 
         document.getElementById('close-modal-btn').addEventListener('click', closeModal);
+
+        // Closes modal, resets "add event" description
         function closeModal() {
             document.getElementById('overlay').style.display = 'none';
             document.getElementById('day-modal').style.display = 'none';
@@ -253,6 +269,7 @@
                             userEvents = events;
                             generateCalendar(new Date());
                             document.getElementById('add-event-form').reset();
+                            closeModal();
                         });
                 });
         });

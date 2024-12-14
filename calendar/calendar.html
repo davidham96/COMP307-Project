@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap">
+
     <title>Landing Page</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap">
+
     <style>
         body {
             font-family: 'Roboto', sans-serif;
@@ -13,6 +15,7 @@
         }
 
         .calendar-container {
+            display: none;
             width: 100%;
             max-width: 600px;
             margin: 20px auto;
@@ -26,7 +29,6 @@
             td {
                 font-size: 0.8em;
                 padding: 3px;
-                height: auto;
             }
         }
 
@@ -40,8 +42,10 @@
             border: 1px solid #ccc;
             vertical-align: top;
             padding: 5px;
-            height: 80px;
             position: relative;
+            height: 80px;
+            overflow: hidden;
+            box-sizing: border-box;
         }
 
         .day-number {
@@ -77,6 +81,7 @@
         #day-modal {
             background: #fff;
             width: 300px;
+            max-width: 90%;
             margin: auto;
             top: 50%;
             left: 50%;
@@ -84,15 +89,29 @@
             border: 1px solid #ccc;
             padding: 20px;
             z-index: 999;
+            box-sizing: border-box;
         }
 
         #add-event-form textarea {
             width: 100%;
             margin-bottom: 10px;
+            box-sizing: border-box;
         }
 
         #add-event-form button {
             margin-top: 10px;
+        }
+
+        #month-controls {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        #month-year {
+            display: inline-block;
+            margin: 0 15px;
+            font-weight: 600;
+            font-size: 1.2em;
         }
     </style>
 </head>
@@ -111,7 +130,11 @@
 
     <!-- Calendar -->
     <div class="calendar-container" id="calendar-container">
-        <div id="month-year"></div>
+        <div id="month-controls">
+            <button id="prev-month" style="margin-right: 10px;">&#9664;</button>
+            <span id="month-year"></span>
+            <button id="next-month" style="margin-left: 10px;">&#9654;</button>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -124,8 +147,7 @@
                     <th>Sat</th>
                 </tr>
             </thead>
-            <tbody id="calendar-body">
-            </tbody>
+            <tbody id="calendar-body"></tbody>
         </table>
     </div>
 
@@ -144,8 +166,8 @@
     <script>
         let selectedDate = null;
         let userEvents = [];
+        let currentDate = new Date();
 
-        // Alternate colors for events
         const eventColors = ["#E0E7DA", "#80AB82", "#B7C9DC"];
 
         document.getElementById('login-form').addEventListener('submit', function (e) {
@@ -165,13 +187,12 @@
                             .then(events => {
                                 userEvents = events;
                                 document.getElementById('calendar-container').style.display = 'block';
-                                generateCalendar(new Date());
+                                generateCalendar(currentDate);
                             });
                     }
                 });
         });
 
-        // Create the calendar
         function generateCalendar(date) {
             const calendarBody = document.getElementById('calendar-body');
             const monthYear = document.getElementById('month-year');
@@ -207,7 +228,6 @@
                 const currentDay = String(day).padStart(2, '0');
                 const formattedDate = `${year}-${month}-${currentDay}`;
 
-                // Find events for this date and display them
                 const eventsForDate = userEvents.filter(e => e.event_date === formattedDate);
 
                 eventsForDate.forEach((event, index) => {
@@ -244,8 +264,6 @@
         }
 
         document.getElementById('close-modal-btn').addEventListener('click', closeModal);
-
-        // Closes modal, resets "add event" description
         function closeModal() {
             document.getElementById('overlay').style.display = 'none';
             document.getElementById('day-modal').style.display = 'none';
@@ -267,7 +285,7 @@
                         .then(response => response.json())
                         .then(events => {
                             userEvents = events;
-                            generateCalendar(new Date());
+                            generateCalendar(currentDate);
                             document.getElementById('add-event-form').reset();
                             closeModal();
                         });
@@ -294,7 +312,7 @@
                             .then(events => {
                                 userEvents = events;
                                 openModal(selectedDate);
-                                generateCalendar(new Date());
+                                generateCalendar(currentDate);
                             });
                     });
             }
@@ -315,10 +333,21 @@
                         .then(events => {
                             userEvents = events;
                             openModal(selectedDate);
-                            generateCalendar(new Date());
+                            generateCalendar(currentDate);
                         });
                 });
         }
+
+        // Buttons to navigate month
+        document.getElementById('prev-month').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            generateCalendar(currentDate);
+        });
+
+        document.getElementById('next-month').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            generateCalendar(currentDate);
+        });
     </script>
 </body>
 

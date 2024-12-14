@@ -112,7 +112,7 @@
             e.preventDefault();
             const loginData = new FormData(this);
 
-            fetch('login.php', {
+            fetch('../login.php', {
                 method: 'POST',
                 body: loginData
             })
@@ -183,7 +183,7 @@
             document.getElementById('overlay').style.display = 'block';
             document.getElementById('day-modal').style.display = 'block';
 
-            fetch('calendar/calendar.php')
+            fetch('calendar.php')
                 .then(response => response.json())
                 .then(events => {
                     const filtered = events.filter(e => e.event_date === formattedDate);
@@ -225,7 +225,7 @@
             const formData = new FormData(this);
 
             // POST event data to add_events.php
-            fetch('calendar/add_events.php', {
+            fetch('add_events.php', {
                 method: 'POST',
                 body: formData
             })
@@ -247,7 +247,7 @@
                 formData.append('event_description', newDescription);
 
                 // POST edited event data to update_events.php
-                fetch('calendar/update_events.php', {
+                fetch('update_events.php', {
                     method: 'POST',
                     body: formData
                 })
@@ -263,7 +263,7 @@
         function deleteEvent(id) {
             const formData = new FormData();
             formData.append('id', id);
-            fetch('calendar/delete_events.php', {
+            fetch('delete_events.php', {
                 method: 'POST',
                 body: formData
             })

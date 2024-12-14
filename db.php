@@ -1,6 +1,5 @@
 <?php
 
-// Database function, depending on the database you are using
 function connectDatabase($db) {
     $host = 'localhost';
     $user = 'root';

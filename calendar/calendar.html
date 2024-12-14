@@ -33,14 +33,16 @@
         .day-number {
             font-size: 10px;
             position: absolute;
-            top: 0px;
+            top: 2px;
             left: 5px;
         }
 
         .event-item {
             font-size: 12px;
             text-align: left;
-            margin-top: 15px;
+            margin-top: 5px;
+            padding: 2px 5px;
+            border-radius: 5px;
             word-wrap: break-word;
         }
 
@@ -68,6 +70,15 @@
             border: 1px solid #ccc;
             padding: 20px;
             z-index: 999;
+        }
+
+        #add-event-form textarea {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        #add-event-form button {
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -108,8 +119,6 @@
     <div id="overlay"></div>
     <div id="day-modal">
         <h3 id="modal-date"></h3>
-        <div id="events-list"></div>
-        <h4>Add Event</h4>
         <form id="add-event-form">
             <input type="hidden" id="add-event-date" name="event_date">
             <textarea name="event_description" id="add-event-description" required></textarea><br>
@@ -121,6 +130,9 @@
     <script>
         let selectedDate = null;
         let userEvents = [];
+
+        // Alternate colors for events
+        const eventColors = ["#E0E7DA", "#80AB82", "#B7C9DC"];
 
         document.getElementById('login-form').addEventListener('submit', function (e) {
             e.preventDefault();
@@ -170,8 +182,6 @@
                 }
 
                 const cell = document.createElement('td');
-
-                // Create a div for the day number
                 const dayNumber = document.createElement('div');
                 dayNumber.textContent = day;
                 dayNumber.className = 'day-number';
@@ -185,10 +195,12 @@
 
                 // Find events for this date and display them
                 const eventsForDate = userEvents.filter(e => e.event_date === formattedDate);
-                eventsForDate.forEach(event => {
+
+                eventsForDate.forEach((event, index) => {
                     const eventDiv = document.createElement('div');
                     eventDiv.textContent = event.event_description;
                     eventDiv.className = 'event-item';
+                    eventDiv.style.backgroundColor = eventColors[index % eventColors.length];
                     cell.appendChild(eventDiv);
                 });
 
@@ -203,38 +215,14 @@
         function openModal(date) {
             selectedDate = date;
             document.getElementById('modal-date').textContent = date.toDateString();
-            document.getElementById('events-list').innerHTML = '';
-
             const year = date.getFullYear();
             const month = String(date.getMonth() + 1).padStart(2, '0');
             const day = String(date.getDate()).padStart(2, '0');
             const formattedDate = `${year}-${month}-${day}`;
-
             document.getElementById('add-event-date').value = formattedDate;
 
-            // Filter events for selected date
-            const filtered = userEvents.filter(e => e.event_date === formattedDate);
-            const eventsList = document.getElementById('events-list');
-
-            filtered.forEach(event => {
-                const div = document.createElement('div');
-                div.textContent = event.event_description;
-
-                // Edit button
-                const editButton = document.createElement('button');
-                editButton.textContent = 'Edit';
-                editButton.onclick = () => editEvent(event.id, event.event_date, event.event_description);
-
-                // Delete button
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Delete';
-                deleteButton.onclick = () => deleteEvent(event.id);
-
-                div.appendChild(document.createElement('br'));
-                div.appendChild(editButton);
-                div.appendChild(deleteButton);
-                eventsList.appendChild(div);
-            });
+            // Clear the event description field
+            document.getElementById('add-event-description').value = '';
 
             // Display modal
             document.getElementById('overlay').style.display = 'block';
@@ -245,6 +233,7 @@
         function closeModal() {
             document.getElementById('overlay').style.display = 'none';
             document.getElementById('day-modal').style.display = 'none';
+            document.getElementById('add-event-form').reset();
         }
 
         // Add Event
@@ -262,8 +251,8 @@
                         .then(response => response.json())
                         .then(events => {
                             userEvents = events;
-                            openModal(selectedDate);
                             generateCalendar(new Date());
+                            document.getElementById('add-event-form').reset();
                         });
                 });
         });

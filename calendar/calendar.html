@@ -5,22 +5,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Landing Page | Calendar</title>
+    <title>Calendar Page</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Roboto', sans-serif;
             font-weight: 300;
+            margin: 0;
+            padding: 0;
         }
 
         .calendar-container {
             display: none;
-            width: 100%;
             max-width: 600px;
             margin: 20px auto;
             padding: 0 10px;
-            box-sizing: border-box;
+            width: 100%;
         }
 
         @media (max-width: 600px) {
@@ -33,8 +38,8 @@
         }
 
         table {
-            border-collapse: collapse;
             width: 100%;
+            border-collapse: collapse;
             border: 8px solid #80ab82;
         }
 
@@ -46,7 +51,6 @@
             position: relative;
             height: 80px;
             overflow: hidden;
-            box-sizing: border-box;
         }
 
         .day-number {
@@ -58,7 +62,6 @@
 
         .event-item {
             font-size: 12px;
-            text-align: left;
             margin-top: 5px;
             padding: 2px 5px;
             border-radius: 5px;
@@ -71,14 +74,14 @@
             position: fixed;
             top: 0;
             left: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         #overlay {
             right: 0;
             bottom: 0;
             background: rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            transition: opacity 0.3s ease;
             z-index: 998;
         }
 
@@ -86,16 +89,12 @@
             background: #fff;
             width: 300px;
             max-width: 90%;
-            margin: auto;
+            padding: 20px;
+            border: 4px solid #80ab82;
+            z-index: 999;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            padding: 20px;
-            z-index: 999;
-            box-sizing: border-box;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            border: 4px solid #80ab82;
         }
 
         #overlay.open,
@@ -107,7 +106,6 @@
         #add-event-form textarea {
             width: 100%;
             margin-bottom: 10px;
-            box-sizing: border-box;
         }
 
         #add-event-form button {
@@ -191,6 +189,18 @@
 
         const eventColors = ["#E0E7DA", "#80AB82", "#B7C9DC"];
 
+        // Refresh events and calendar
+        function refreshCalendarAndModal(keepModalOpen = false) {
+            fetch('calendar.php')
+                .then(response => response.json())
+                .then(events => {
+                    userEvents = events;
+                    generateCalendar(currentDate);
+                    if (keepModalOpen) openModal(selectedDate);
+                });
+        }
+
+        // Login Form submission
         document.getElementById('login-form').addEventListener('submit', function (e) {
             e.preventDefault();
             const loginData = new FormData(this);
@@ -202,18 +212,13 @@
                 .then(response => response.text())
                 .then(data => {
                     if (data.includes("Logged in") || data.includes("Signed up")) {
-                        // Fetch all user's events after login
-                        fetch('calendar.php')
-                            .then(response => response.json())
-                            .then(events => {
-                                userEvents = events;
-                                document.getElementById('calendar-container').style.display = 'block';
-                                generateCalendar(currentDate);
-                            });
+                        refreshCalendarAndModal();
+                        document.getElementById('calendar-container').style.display = 'block';
                     }
                 });
         });
 
+        // Generate Calendar
         function generateCalendar(date) {
             const calendarBody = document.getElementById('calendar-body');
             const monthYear = document.getElementById('month-year');
@@ -225,10 +230,12 @@
             const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
             let row = document.createElement('tr');
 
+            // Leading empty cells
             for (let i = 0; i < firstDay; i++) {
                 row.appendChild(document.createElement('td'));
             }
 
+            // Days of the month
             for (let day = 1; day <= daysInMonth; day++) {
                 if (row.children.length === 7) {
                     calendarBody.appendChild(row);
@@ -246,8 +253,8 @@
                 const currentDay = String(day).padStart(2, '0');
                 const formattedDate = `${year}-${month}-${currentDay}`;
 
+                // Events for this date
                 const eventsForDate = userEvents.filter(e => e.event_date === formattedDate);
-
                 eventsForDate.forEach((event, index) => {
                     const eventDiv = document.createElement('div');
                     eventDiv.textContent = event.event_description;
@@ -260,14 +267,13 @@
                 row.appendChild(cell);
             }
 
-            // Fill the remaining cells if the last row is not complete
             while (row.children.length < 7) {
                 row.appendChild(document.createElement('td'));
             }
             calendarBody.appendChild(row);
         }
 
-        // Open modal and display events of that day along with add form
+        // Open Modal
         function openModal(date) {
             selectedDate = date;
             document.getElementById('modal-date').textContent = date.toDateString();
@@ -276,15 +282,14 @@
             const month = String(date.getMonth() + 1).padStart(2, '0');
             const day = String(date.getDate()).padStart(2, '0');
             const formattedDate = `${year}-${month}-${day}`;
-            document.getElementById('add-event-date').value = formattedDate;
 
-            // Clear the event description field
+            document.getElementById('add-event-date').value = formattedDate;
             document.getElementById('add-event-description').value = '';
 
-            // Fetch events and display them here
-            const eventsForDate = userEvents.filter(e => e.event_date === formattedDate);
             const eventsList = document.getElementById('events-list');
             eventsList.innerHTML = '';
+
+            const eventsForDate = userEvents.filter(e => e.event_date === formattedDate);
 
             eventsForDate.forEach(event => {
                 const div = document.createElement('div');
@@ -293,17 +298,13 @@
                 const buttonsDiv = document.createElement('div');
                 buttonsDiv.className = 'event-buttons';
 
-                // Edit button
                 const editButton = document.createElement('button');
                 editButton.textContent = 'Edit';
                 editButton.onclick = () => {
                     const newDescription = prompt("Edit event description:", event.event_description);
-                    if (newDescription !== null) {
-                        editEvent(event.id, event.event_date, newDescription);
-                    }
+                    if (newDescription !== null) editEvent(event.id, event.event_date, newDescription);
                 };
 
-                // Delete button
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Delete';
                 deleteButton.onclick = () => deleteEvent(event.id);
@@ -316,11 +317,11 @@
                 eventsList.appendChild(div);
             });
 
-            // Show modal with transition
             document.getElementById('overlay').classList.add('open');
             document.getElementById('day-modal').classList.add('open');
         }
 
+        // Close Modal
         document.getElementById('close-modal-btn').addEventListener('click', closeModal);
         function closeModal() {
             document.getElementById('overlay').classList.remove('open');
@@ -338,15 +339,9 @@
                 body: formData
             })
                 .then(response => response.text())
-                .then(data => {
-                    fetch('calendar.php')
-                        .then(response => response.json())
-                        .then(events => {
-                            userEvents = events;
-                            generateCalendar(currentDate);
-                            document.getElementById('add-event-form').reset();
-                            openModal(selectedDate);
-                        });
+                .then(() => {
+                    refreshCalendarAndModal(true);
+                    document.getElementById('add-event-form').reset();
                 });
         });
 
@@ -362,38 +357,23 @@
                 body: formData
             })
                 .then(response => response.text())
-                .then(data => {
-                    fetch('calendar.php')
-                        .then(response => response.json())
-                        .then(events => {
-                            userEvents = events;
-                            generateCalendar(currentDate);
-                            openModal(selectedDate);
-                        });
-                });
+                .then(() => refreshCalendarAndModal(true));
         }
 
         // Delete Event
         function deleteEvent(id) {
             const formData = new FormData();
             formData.append('id', id);
+
             fetch('delete_events.php', {
                 method: 'POST',
                 body: formData
             })
                 .then(response => response.text())
-                .then(data => {
-                    fetch('calendar.php')
-                        .then(response => response.json())
-                        .then(events => {
-                            userEvents = events;
-                            generateCalendar(currentDate);
-                            openModal(selectedDate);
-                        });
-                });
+                .then(() => refreshCalendarAndModal(true));
         }
 
-        // Buttons to navigate month
+        // Month Navigation
         document.getElementById('prev-month').addEventListener('click', () => {
             currentDate.setMonth(currentDate.getMonth() - 1);
             generateCalendar(currentDate);
@@ -403,6 +383,7 @@
             currentDate.setMonth(currentDate.getMonth() + 1);
             generateCalendar(currentDate);
         });
+
     </script>
 </body>
 

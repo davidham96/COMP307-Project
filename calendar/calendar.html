@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Landing Page</title>
+    <title>Landing Page | Calendar</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap">
 
     <style>
@@ -35,11 +35,12 @@
         table {
             border-collapse: collapse;
             width: 100%;
+            border: 8px solid #80ab82;
         }
 
         th,
         td {
-            border: 1px solid #ccc;
+            border: 1px solid #80ab82;
             vertical-align: top;
             padding: 5px;
             position: relative;
@@ -64,18 +65,21 @@
             word-wrap: break-word;
         }
 
-        #day-modal,
-        #overlay {
+        #overlay,
+        #day-modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
         }
 
         #overlay {
+            right: 0;
+            bottom: 0;
             background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 998;
         }
 
         #day-modal {
@@ -86,10 +90,18 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            border: 1px solid #ccc;
             padding: 20px;
             z-index: 999;
             box-sizing: border-box;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border: 4px solid #80ab82;
+        }
+
+        #overlay.open,
+        #day-modal.open {
+            display: block;
+            opacity: 1;
         }
 
         #add-event-form textarea {
@@ -247,6 +259,11 @@
                 cell.onclick = () => openModal(new Date(year, date.getMonth(), day, 12));
                 row.appendChild(cell);
             }
+
+            // Fill the remaining cells if the last row is not complete
+            while (row.children.length < 7) {
+                row.appendChild(document.createElement('td'));
+            }
             calendarBody.appendChild(row);
         }
 
@@ -299,15 +316,15 @@
                 eventsList.appendChild(div);
             });
 
-            // Display modal
-            document.getElementById('overlay').style.display = 'block';
-            document.getElementById('day-modal').style.display = 'block';
+            // Show modal with transition
+            document.getElementById('overlay').classList.add('open');
+            document.getElementById('day-modal').classList.add('open');
         }
 
         document.getElementById('close-modal-btn').addEventListener('click', closeModal);
         function closeModal() {
-            document.getElementById('overlay').style.display = 'none';
-            document.getElementById('day-modal').style.display = 'none';
+            document.getElementById('overlay').classList.remove('open');
+            document.getElementById('day-modal').classList.remove('open');
             document.getElementById('add-event-form').reset();
         }
 

@@ -1,4 +1,5 @@
 <?php
+// David Hamaoui, 260985825
 
 function connectDatabase($db) {
     $host = 'localhost';

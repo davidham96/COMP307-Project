@@ -1,4 +1,6 @@
 <?php
+// David Hamaoui, 260985825
+
 include '../db.php';
 session_start();
 

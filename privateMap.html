@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html>
   <head>
     <title>Public Map</title>
@@ -131,7 +131,7 @@
         border: 3px solid #f1f1f1;
         z-index: 9;
         background-color: white;
-        height: 180px;
+        height: 220px;
         width: 400px;
         text-align: center;
         padding: 10px;
@@ -316,18 +316,25 @@
             document.getElementById("beforelocation").style.display = "none";
           }
           let coords = [0,0];
+          let long;
+          let lat;
           function replaceforms(){
             closeOtherForm();
             openForm(coords);
             map.fire('closeAllPopups');
+            document.getElementById("murder").value = long;
+            document.getElementById("death").value = lat;
           }
             map.on('click', function(e) {
               if (choosing){
                 var coordinates = e.lngLat;
                 coords = [coordinates.lng,coordinates.lat];
+                long = coords[0];
+                lat = coords[1];
                 popup = new mapboxgl.Popup()
                   .setLngLat(coordinates)
-                  .setHTML('<br><button type="button" style="background-color:#5e6d9b;color:white;padding: 16px 20px;border:none;cursor:pointer;width:100%;" onclick="replaceforms()">CHOOSE LOCATION</button>' )
+                  .setHTML(coords)
+                 // <br><button type="button" style="background-color:#5e6d9b;color:white;padding: 16px 20px;border:none;cursor:pointer;width:100%;" onclick="replaceforms()">CHOOSE LOCATION</button>' )
                   .addTo(map); }
               });
               map.on('closeAllPopups', () => {
@@ -357,8 +364,9 @@
         
             <label for="place_name"><b>Location Name</b><br></label>
             <input type="text" placeholder="Enter Name" name="place_name" required>
-        
-            <button type="submit" class="btn">Add Location</button>
+            <input id="murder" type="hidden" name="long" />
+            <input id="death" type="hidden" name="lat" />
+            <button type="submit" class="btn" onclick="closeForm()">Add Location</button>
             <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
           </form>
         </div>
@@ -366,14 +374,17 @@
         <div class="temp-form " id="beforelocation">
           <div>
             <h1><i>Please select the location you would like to add</i></h1>  
+            <button type="button" class="btn cancel" onclick="replaceforms()">Select this location</button>
             <button type="button" class="btn cancel" onclick="closeOtherForm()">Close</button>
            
           </div> 
         </div>
 
         <script>
-          let long;
-          let lat;
+          //let long;
+          //let lat;
+          //document.getElementById("murder").value = long;
+          //document.getElementById("death").value = lat;
           function openForm(coords) {
             document.getElementById("myForm").style.display = "block";
             long = coords[0];

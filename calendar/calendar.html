@@ -23,7 +23,7 @@
         }
 
         .calendar-container {
-            display: none;
+            display: block;
             max-width: 600px;
             margin: 20px auto;
             padding: 0 10px;
@@ -136,17 +136,6 @@
 </head>
 
 <body>
-    <!-- Login Form -->
-    <form id="login-form">
-        <label for="email">McGill Email:</label>
-        <input type="email" name="email" id="email" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" required>
-        <br>
-        <button type="submit">Sign Up / Login</button>
-    </form>
-
     <!-- Calendar -->
     <div class="calendar-container" id="calendar-container">
         <div id="month-controls">
@@ -205,24 +194,9 @@
                 });
         }
 
-        // Login Form submission
-        document.getElementById('login-form').addEventListener('submit', function (e) {
-            e.preventDefault();
-            const loginData = new FormData(this);
-
-            // Send login data to login.php
-            fetch('../login.php', {
-                method: 'POST',
-                body: loginData
-            })
-                .then(response => response.text())
-                .then(data => {
-                    // Check if login successful
-                    if (data.includes("Logged in") || data.includes("Signed up")) {
-                        refreshCalendarAndModal();
-                        document.getElementById('calendar-container').style.display = 'block';
-                    }
-                });
+        // Calendar loads with events when page is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            refreshCalendarAndModal();
         });
 
         // Generate Calendar

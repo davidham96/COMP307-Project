@@ -3,8 +3,7 @@ session_start();
 include './db.php';
 
 $conn = connectDatabase('map');
-//$user_id = $_SESSION['user_id'];
-$user_id =  100;
+$user_id = $_SESSION['user_id'];
 
 $stmt = $conn->prepare("SELECT id, longitude, latitude, place_name FROM locations WHERE user_id = ?");
 $stmt->bind_param("i", $user_id);

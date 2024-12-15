@@ -121,10 +121,12 @@
         right: 15px;
         border: 3px solid #f1f1f1;
         z-index: 9;
+        border-radius: 15px;
       }
 
       .temp-form {
         display: none;
+        border-radius: 15px;
         position: fixed;
         bottom: 0;
         right: 15px;
@@ -172,12 +174,14 @@
         cursor: pointer;
         width: 100%;
         margin-bottom:10px;
+        border-radius: 15px;
         opacity: 0.8;
       }
       .temp-form .btn {
         background-color: #5e6d9b;
         color: white;
         padding: 16px 20px;
+        border-radius: 15px;
         border: none;
         cursor: pointer;
         width: 100%;
@@ -291,20 +295,24 @@
             if (wateron){
             map.setLayoutProperty('waterstations', 'visibility', 'none');
               wateron = false;
+              document.getElementById("waterb").style.color = "#b7c9dc";
             }
             else{
               map.setLayoutProperty('waterstations', 'visibility', 'visible');
               wateron = true;
+              document.getElementById("waterb").style.color = "#80ab82";
             }
            }
            function bike() {
             if (bikeon){
             map.setLayoutProperty('bikeracks-3g8f4l', 'visibility', 'none');
             bikeon = false;
+            document.getElementById("bikeb").style.color = "#b7c9dc";
             }
             else{
               map.setLayoutProperty('bikeracks-3g8f4l', 'visibility', 'visible');
               bikeon = true;
+              document.getElementById("bikeb").style.color = "#80ab82";
             }
            }
            function timetodostuff() {
@@ -322,8 +330,8 @@
             closeOtherForm();
             openForm(coords);
             map.fire('closeAllPopups');
-            document.getElementById("murder").value = long;
-            document.getElementById("death").value = lat;
+            document.getElementById("longitude").value = long;
+            document.getElementById("latitude").value = lat;
           }
             map.on('click', function(e) {
               if (choosing){
@@ -334,7 +342,6 @@
                 popup = new mapboxgl.Popup()
                   .setLngLat(coordinates)
                   .setHTML(coords)
-                 // <br><button type="button" style="background-color:#5e6d9b;color:white;padding: 16px 20px;border:none;cursor:pointer;width:100%;" onclick="replaceforms()">CHOOSE LOCATION</button>' )
                   .addTo(map); }
               });
               map.on('closeAllPopups', () => {
@@ -348,15 +355,15 @@
          <div style="height:100px;">  
         </div>
         <div id="mapButtons">  
-          <a class="button" onclick="water()"
+          <a id="waterb" class="button" onclick="water()"
             target="_blank">Water Re-fill Stations</a>
-          <a class="button" onclick="bike()"
+          <a id="bikeb" class="button" onclick="bike()"
             target="_blank">Bike Racks</a>
         </div>
         
         <div id="locations">
-          <a class="button" onclick="timetodostuff()"
-            target="_blank">Add location</a>
+          <a  class="button" onclick="timetodostuff()" style="border:solid;border-color: #5e6d9b;"
+            target="_blank"><i>Add location</i></a>
         </div>
         <div class="form-popup" id="myForm">
           <form class="form-container" id="add_location_form">
@@ -364,8 +371,8 @@
         
             <label for="place_name"><b>Location Name</b><br></label>
             <input type="text" placeholder="Enter Name" name="place_name" required>
-            <input id="murder" type="hidden" name="long" />
-            <input id="death" type="hidden" name="lat" />
+            <input id="longitude" type="hidden" name="long" />
+            <input id="latitude" type="hidden" name="lat" />
             <button type="submit" class="btn" onclick="closeForm()">Add Location</button>
             <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
           </form>
@@ -381,10 +388,6 @@
         </div>
 
         <script>
-          //let long;
-          //let lat;
-          //document.getElementById("murder").value = long;
-          //document.getElementById("death").value = lat;
           function openForm(coords) {
             document.getElementById("myForm").style.display = "block";
             long = coords[0];

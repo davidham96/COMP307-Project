@@ -5,8 +5,8 @@ include './db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn = connectDatabase('map');
-    //$user_id = $_SESSION['user_id'];
-    $user_id = 100;
+    $user_id = $_SESSION['user_id'];
+    //$user_id = 100;
     $long = $_POST['long'];
     $lat = $_POST['lat'];
     $place_name = $_POST['place_name'];

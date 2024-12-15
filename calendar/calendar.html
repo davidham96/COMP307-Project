@@ -113,6 +113,13 @@
             font-weight: 600;
             font-size: 1.2em;
         }
+
+        .event-buttons button {
+            margin-right: 5px;
+            font-size: 10px;
+            padding: 2px 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -155,6 +162,8 @@
     <div id="overlay"></div>
     <div id="day-modal">
         <h3 id="modal-date"></h3>
+        <div id="events-list"></div>
+        <h4>Add Event</h4>
         <form id="add-event-form">
             <input type="hidden" id="add-event-date" name="event_date">
             <textarea name="event_description" id="add-event-description" required></textarea><br>
@@ -198,14 +207,12 @@
             const monthYear = document.getElementById('month-year');
             calendarBody.innerHTML = '';
 
-            // Set heading to current month and year
             monthYear.textContent = date.toLocaleString('default', { month: 'long', year: 'numeric' });
 
             const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
             const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
             let row = document.createElement('tr');
 
-            // Create empty cells before first day
             for (let i = 0; i < firstDay; i++) {
                 row.appendChild(document.createElement('td'));
             }
@@ -222,7 +229,6 @@
                 dayNumber.className = 'day-number';
                 cell.appendChild(dayNumber);
 
-                // Format the date for comparison
                 const year = date.getFullYear();
                 const month = String(date.getMonth() + 1).padStart(2, '0');
                 const currentDay = String(day).padStart(2, '0');
@@ -238,17 +244,17 @@
                     cell.appendChild(eventDiv);
                 });
 
-                // Clicking a day calls openModal
                 cell.onclick = () => openModal(new Date(year, date.getMonth(), day, 12));
                 row.appendChild(cell);
             }
             calendarBody.appendChild(row);
         }
 
-        // Modal
+        // Open modal and display events of that day along with add form
         function openModal(date) {
             selectedDate = date;
             document.getElementById('modal-date').textContent = date.toDateString();
+
             const year = date.getFullYear();
             const month = String(date.getMonth() + 1).padStart(2, '0');
             const day = String(date.getDate()).padStart(2, '0');
@@ -257,6 +263,41 @@
 
             // Clear the event description field
             document.getElementById('add-event-description').value = '';
+
+            // Fetch events and display them here
+            const eventsForDate = userEvents.filter(e => e.event_date === formattedDate);
+            const eventsList = document.getElementById('events-list');
+            eventsList.innerHTML = '';
+
+            eventsForDate.forEach(event => {
+                const div = document.createElement('div');
+                div.textContent = event.event_description;
+
+                const buttonsDiv = document.createElement('div');
+                buttonsDiv.className = 'event-buttons';
+
+                // Edit button
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Edit';
+                editButton.onclick = () => {
+                    const newDescription = prompt("Edit event description:", event.event_description);
+                    if (newDescription !== null) {
+                        editEvent(event.id, event.event_date, newDescription);
+                    }
+                };
+
+                // Delete button
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.onclick = () => deleteEvent(event.id);
+
+                buttonsDiv.appendChild(editButton);
+                buttonsDiv.appendChild(deleteButton);
+
+                div.appendChild(document.createElement('br'));
+                div.appendChild(buttonsDiv);
+                eventsList.appendChild(div);
+            });
 
             // Display modal
             document.getElementById('overlay').style.display = 'block';
@@ -287,35 +328,32 @@
                             userEvents = events;
                             generateCalendar(currentDate);
                             document.getElementById('add-event-form').reset();
-                            closeModal();
+                            openModal(selectedDate);
                         });
                 });
         });
 
         // Edit Event
         function editEvent(id, event_date, event_description) {
-            const newDescription = prompt("Edit event description:", event_description);
-            if (newDescription !== null) {
-                const formData = new FormData();
-                formData.append('id', id);
-                formData.append('event_date', event_date);
-                formData.append('event_description', newDescription);
+            const formData = new FormData();
+            formData.append('id', id);
+            formData.append('event_date', event_date);
+            formData.append('event_description', event_description);
 
-                fetch('update_events.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                    .then(response => response.text())
-                    .then(data => {
-                        fetch('calendar.php')
-                            .then(response => response.json())
-                            .then(events => {
-                                userEvents = events;
-                                openModal(selectedDate);
-                                generateCalendar(currentDate);
-                            });
-                    });
-            }
+            fetch('update_events.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    fetch('calendar.php')
+                        .then(response => response.json())
+                        .then(events => {
+                            userEvents = events;
+                            generateCalendar(currentDate);
+                            openModal(selectedDate);
+                        });
+                });
         }
 
         // Delete Event
@@ -332,8 +370,8 @@
                         .then(response => response.json())
                         .then(events => {
                             userEvents = events;
-                            openModal(selectedDate);
                             generateCalendar(currentDate);
+                            openModal(selectedDate);
                         });
                 });
         }

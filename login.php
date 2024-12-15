@@ -3,7 +3,7 @@ include 'db.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $conn = connectDatabase('users');
+    $conn = connectDatabase('307-final');
 
     // Get email and password
     $email = $_POST['email'];

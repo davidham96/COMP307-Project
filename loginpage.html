@@ -218,9 +218,9 @@
   <body>
 
 
-    <div class="loginform" id="email and pw">
+    <div class="loginform">
     <!-- Sign Up / Login Form -->
-    <form action="login.php" method="POST">
+    <form>
         <label for="email">McGill Email:</label>
         <input type="email" name="email" id="email" required>
         <br>
@@ -228,16 +228,35 @@
         <br>
         <input type="password" name="password" id="password" required>
         </br>
-
-
         <br>
         <div class="submit" id="sign up / login">
-        <button type="submit">Sign Up / Login</button>
-            <a class="button" href="dashboard.html" 
-        
+        <button type="submit">Sign Up / Login</button>        
         </div>
     </form>
     </div>
+
+<script>
+    document.getElementById('loginform').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const loginData = new FormData(this);
+      
+      // Send login data to login.php
+      fetch('login.php', {
+      method: 'POST',
+      body: loginData
+      })
+      .then(response => response.text())
+      .then(data => {
+      // Check if login successful
+      if (data.includes("Logged in") || data.includes("Signed up")) {
+      window.location.href = "Dashboard.html";
+      } else {
+      alert("Login failed.");
+      }
+      });
+      })
+  </script>
+
 </div>
 
     </body>

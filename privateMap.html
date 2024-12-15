@@ -1,4 +1,4 @@
-
+<!-- Anna Henderson 261034784-->
 <html>
   <head>
     <title>Public Map</title>
@@ -105,13 +105,13 @@
       }
 
       .mapButtons {
-        display: flex;
-        float: left;
+        position: fixed;
+        z-index: 9;
+        display: block;
       }
 
       .locations {
-        display: flex;
-        float: left;
+        display: block;
       }
       
       .form-popup {
@@ -204,8 +204,7 @@
       .lines:hover {cursor: pointer;} 
       .lines:hover .dropdown {display: block; z-index: 99;}
 
-      @media screen and (max-width: 1190px) { .menu {display: none;} .lines {display: block;}
-                }
+      @media screen and (max-width: 1190px) { .menu {display: none;} .lines {display: block;} }
 
     </style>
   </head>
@@ -255,7 +254,7 @@
         <div style="height:150px;">  
         </div>
 
-        <div id='map' style='width: 80%; height: 600px; display:flex; margin:auto; float:right;'></div>
+        <div id='map' style='width: 80%; height: 600px; display:flex; margin-right:0; margin-left:250px; float:right; position: absolute;'></div>
           <script>
           mapboxgl.accessToken = 'pk.eyJ1IjoiYW5uYWpoIiwiYSI6ImNtNGhidTQzZTAyaDIyb3B6ODJobDBjb2IifQ.ygOHw-UbfsXXv7N-JQAW7Q';
           const map = new mapboxgl.Map({
@@ -265,16 +264,14 @@
             zoom: 14.5, 
           });
           map.on('click', (event) => {
-            // If the user clicked on one of your markers, get its information.
             const features = map.queryRenderedFeatures(event.point, {
-              layers: ['waterstations', 'bikeracks-3g8f4l'] // replace with your layer name
+              layers: ['waterstations', 'bikeracks-3g8f4l'] 
             });
             if (!features.length) {
               return;
             }
             const feature = features[0];
 
-            // Code from the next step will go here.
             const popup = new mapboxgl.Popup({ offset: [0, -15] })
               .setLngLat(feature.geometry.coordinates)
               .setHTML(
@@ -287,10 +284,40 @@
 
 
         <script> 
+          let fakeLocations = [];
+          function getLocationFromDB() {
+           
+            fetch('map.php')
+                .then(response => response.json())
+                .then(places => {
+                    
+                  fakeLocations = places;
+                  putAllTheFakePoints(fakeLocations);
+                });
+        }
+        getLocationFromDB()
+        
+        let curMarkers = [];
+        function putAPoint(long, lat){
+          let a;
+          a = new mapboxgl.Marker({ color: "#5e6d9b"}).setLngLat([long,lat]).addTo(map);
+          curMarkers += a;
+        }
+
+        function putAllTheFakePoints(places){
+          places.forEach(location => {
+            let long = location.longitude;
+            let lat = location.latitude;
+            putAPoint(long, lat);
+          });
+        }
+
+
           let wateron = true;
           let bikeon = true;
           let choosing = false;
           let popup;
+          
           function water() {
             if (wateron){
             map.setLayoutProperty('waterstations', 'visibility', 'none');
@@ -315,7 +342,7 @@
               document.getElementById("bikeb").style.color = "#80ab82";
             }
            }
-           function timetodostuff() {
+           function addLocationStart() {
             document.getElementById("beforelocation").style.display = "block";
             choosing = true;
            }
@@ -356,15 +383,16 @@
         </div>
         <div id="mapButtons">  
           <a id="waterb" class="button" onclick="water()"
-            target="_blank">Water Re-fill Stations</a>
+            target="_blank">Water Re-fill Stations</a> <br>
           <a id="bikeb" class="button" onclick="bike()"
             target="_blank">Bike Racks</a>
-        </div>
+        
         
         <div id="locations">
-          <a  class="button" onclick="timetodostuff()" style="border:solid;border-color: #5e6d9b;"
+          <a  class="button" onclick="addLocationStart()" style="border:solid;border-color: #5e6d9b;"
             target="_blank"><i>Add location</i></a>
         </div>
+      </div>
         <div class="form-popup" id="myForm">
           <form class="form-container" id="add_location_form">
             <h1>Add a location</h1>
@@ -410,6 +438,8 @@
                 .then(data => {
                     console.log(data);
                 });
+
+              putAPoint(long, lat);
           });
 
           </script>

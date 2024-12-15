@@ -208,19 +208,17 @@
         <a class="button" href="https://merriam-webster.com/dictionary/sign%20up" 
           target="_blank"><b>Login</b></a>
       </div>
-      <div>
-      <div>
          
-    <div class="bluebox" id="box1" >
+      <div class="bluebox" id="box1" >
       
        </div>
-      </div>
-  <body>
+    </div>
+
 
 
     <div class="loginform">
     <!-- Sign Up / Login Form -->
-    <form>
+    <form id="login-form">
         <label for="email">McGill Email:</label>
         <input type="email" name="email" id="email" required>
         <br>
@@ -229,14 +227,18 @@
         <input type="password" name="password" id="password" required>
         </br>
         <br>
-        <div class="submit" id="sign up / login">
+        <div class="submit">
         <button type="submit">Sign Up / Login</button>        
         </div>
     </form>
     </div>
 
+
+
+
+    
 <script>
-    document.getElementById('loginform').addEventListener('submit', function (e) {
+    document.getElementById('login-form').addEventListener('submit', function (e) {
       e.preventDefault();
       const loginData = new FormData(this);
       
@@ -259,8 +261,6 @@
 
 </div>
 
-    </body>
-
-  </body>
+</body>
 
 </html>

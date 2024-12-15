@@ -112,7 +112,7 @@
         display: flex;
       }
  
-      .box1{
+      #box1{
         position: fixed;
         inset: 0px;
         width: 20rem;
@@ -163,6 +163,8 @@
       @media screen and (max-width: 1190px) { .menu {display: none;} .lines {display: block;}
                 #box1 {}
                 #box2 {width: 90%; float: left; }
+                #box3 {}
+                #box4 {}
                 }
 
     </style>
@@ -181,11 +183,12 @@
           <div class="oneline"></div> 
 
 
-          
           <div class="dropdown">
-          <a href="dashboard.html" ><b>Home</b></a>
-          <a href="privateMap.html"><b>Eco-map</b></a>
-          <a href="about.html"><b>About</b></a>
+          <a href="#home" ><b>Home</b></a>
+          <a href="#"><b>Eco-map</b></a>
+          <a href="#"><b>My Calendar</b></a>
+          <a href="#"><b>Events</b></a>
+          <a href="#"><b>About</b></a>
         </div>
       </div>
 
@@ -194,26 +197,30 @@
         </div>
 
       <div class="menu"> 
-         <a href="dashboard.html" ><b>Home</b></a>
-          <a href="privateMap.html"><b>Eco-map</b></a>
-          <a href="about.html"><b>About</b></a>
+        <a href="#homepage.html"><b>Home</b></a>
+        <a href="#"><b>Eco-map</b></a>
+        <a href="#"><b>My Calendar</b></a>
+        <a href="#"><b>Events</b></a>
+        <a href="#"><b>About</b></a>
       </div>
 
       <div class="login"> 
         <a class="button" href="https://merriam-webster.com/dictionary/sign%20up" 
           target="_blank"><b>Login</b></a>
       </div>
+      <div>
+      <div>
          
-      <div class="bluebox" id="box1">
+    <div class="bluebox" id="box1" >
       
        </div>
-    </div>
+      </div>
+  <body>
 
 
-
-    <div class="loginform">
+    <div class="loginform" id="email and pw">
     <!-- Sign Up / Login Form -->
-    <form id="login-form">
+    <form action="login.php" method="POST">
         <label for="email">McGill Email:</label>
         <input type="email" name="email" id="email" required>
         <br>
@@ -221,41 +228,18 @@
         <br>
         <input type="password" name="password" id="password" required>
         </br>
+
+
         <br>
-        <div class="submit">
-        <button type="submit">Sign Up / Login</button>        
+        <div class="submit" id="sign up / login">
+        <button type="submit">Sign Up / Login</button>
         </div>
     </form>
     </div>
-
-
-
-
-    
-<script>
-    document.getElementById('login-form').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const loginData = new FormData(this);
-      
-      // Send login data to login.php
-      fetch('login.php', {
-      method: 'POST',
-      body: loginData
-      })
-      .then(response => response.text())
-      .then(data => {
-      // Check if login successful
-      if (data.includes("Logged in") || data.includes("Signed up")) {
-      window.location.href = "Dashboard.html";
-      } else {
-      alert("Login failed.");
-      }
-      });
-      })
-  </script>
-
 </div>
 
-</body>
+    </body>
+
+  </body>
 
 </html>

@@ -13,36 +13,6 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
     <style>
 
-.drop {
-            position: relative;
-            width: 20px;
-            height: 20px;
-            top: -30px;
-            margin: 0 auto;
-            background: #FFF;
-            border-radius: 20px;
-            animation: drip 2s cubic-bezier(1, 0, 0.91, 0.19) forwards;
-        }
-
-        .drop:before {
-            content: "";
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-bottom: 30px solid rgba(255, 255, 255, 1);
-            top: -22px;
-        }
-
-        @keyframes drip {
-            to {
-                top: 190px;
-                opacity: 0;
-            }
-
-          }
-
       .top {
           float: left;
           background-color: #E0E7DA;
@@ -142,7 +112,7 @@
         display: flex;
       }
  
-      .box1, .box2 {
+    .box1, .box2 {
   position: absolute; /* Use absolute positioning for precise placement */
   display: flex; /* Enable Flexbox for centering */
   flex-direction: column; /* Stack text vertically */
@@ -253,11 +223,9 @@
 
 
           <div class="dropdown">
-          <a href="#home" ><b>Home</b></a>
-          <a href="#"><b>Eco-map</b></a>
-          <a href="#"><b>My Calendar</b></a>
-          <a href="#"><b>Events</b></a>
-          <a href="#"><b>About</b></a>
+          <a href="dashboard.html" ><b>Home</b></a>
+          <a href="privateMap.html"><b>Eco-map</b></a>
+          <a href="about.html"><b>About</b></a>
         </div>
       </div>
 
@@ -266,11 +234,9 @@
         </div>
 
       <div class="menu"> 
-        <a href="#home"><b>Home</b></a>
-        <a href="#"><b>Eco-map</b></a>
-        <a href="#"><b>My Calendar</b></a>
-        <a href="#"><b>Events</b></a>
-        <a href="#"><b>About</b></a>
+         <a href="dashboard.html" ><b>Home</b></a>
+          <a href="privateMap.html"><b>Eco-map</b></a>
+          <a href="about.html"><b>About</b></a>
       </div>
 
       <div class="login"> 

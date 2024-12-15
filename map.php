@@ -1,8 +1,9 @@
+<!-- Alannah Perera 261022433 & Anna Henderson 261034784-->
 <?php
 session_start();
 include './db.php';
 
-$conn = connectDatabase('map');
+$conn = connectDatabase('307-final');
 $user_id = $_SESSION['user_id'];
 
 $stmt = $conn->prepare("SELECT id, longitude, latitude, place_name FROM locations WHERE user_id = ?");

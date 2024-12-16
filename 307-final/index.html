@@ -1,0 +1,263 @@
+<!--Completed by Alannah Perera 261022433-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+</head>
+  <head>
+    <title>My Login</title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <style>
+
+      .top {
+          float: left;
+          background-color: #E0E7DA;
+          height: 90px;
+          width: 100%;
+        }
+
+        .logo {
+        float: left;
+      }
+
+      .menu {
+        display: flex;
+        float: left;
+        padding-left: 50px;
+      }
+
+      .menu a {
+      float: left;
+      display: block;
+      color: #80ab82;
+      text-align: center;
+      margin-top:18px;
+      padding: 16px 40px;
+      text-decoration: none;
+      font-size: 18px; 
+      font-family: Roboto, Helvetica, sans-serif;
+      }
+
+      .lines {
+        display: none;
+        float: left;
+        line-height: .45;
+        padding-left: 10px;
+        padding-top: 20px;
+      }
+
+      .oneline {
+        width: 35px;
+        height: 5px;
+        border-radius: 5px;
+        background-color: #5e6d9b;
+      }
+
+      .dropdown {
+        display: none;
+        position: absolute;
+        background-color: #ffffff;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        border-radius: 15px;
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      .dropdown a {
+        color: #80ab82;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        font-family: Verdana, Helvetica, sans-serif;
+        font-size: 14px;
+      }
+
+      
+
+      .login {
+        display: absolute;
+        float: right;
+        padding-right: 50px;
+        padding-top: 20px;
+      }
+
+      .button {
+        background-color: #ffffff;
+        border: none;
+        color: #80ab82;
+        padding: 10px 28px;
+        border-radius: 15px;
+        text-align: center;
+        display: inline-block;
+        text-decoration: none;
+        font-size: 18px;
+        margin: 4px 2px;
+        cursor: pointer;
+        font-family: Roboto, Helvetica, sans-serif;
+      }
+
+      .greenbox {
+        background-color: #e0e7da;
+        border-radius: 25px;
+        padding: 28px 28px;
+      }
+
+      .main {
+        display: flex;
+      }
+ 
+    .box1, .box2 {
+  position: absolute; /* Use absolute positioning for precise placement */
+  display: flex; /* Enable Flexbox for centering */
+  flex-direction: column; /* Stack text vertically */
+  justify-content: center; /* Center text vertically */
+  align-items: center; /* Center text horizontally */
+  text-align: center; /* Ensure text alignment */
+  padding: 28px; /* Add padding for spacing */
+  border-radius: 25px; /* Keep rounded corners */
+  font-family: Roboto, Helvetica, sans-serif;
+  color: #5e6d9b;
+}
+
+.box1 {
+  width: 750px;
+  height: 400px;
+  background: #b7c9dc;
+  border-radius: 25px;
+  padding: 28px 28px;
+  top: 65%; /* Vertically center */
+  left: 40%; /* Position on the left side */
+  transform: translateY(-50%); /* Adjust for vertical center */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Roboto, Helvetica, sans-serif;
+  color: #5e6d9b;
+}
+
+.box2 {
+  width: 700px;
+  height: 400px;
+  background: #E0E7DA;
+  border-radius: 25px;
+  padding: 28px 28px;
+  top: 55%; /* Slightly offset vertically for overlap */
+  left: 5%; /* Positioned slightly to the right of box1 */
+  transform: translateY(-50%);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: Roboto, Helvetica, sans-serif;
+  font-size: larger;
+  color: #5e6d9b;
+}
+
+
+      .loginform{
+        position: fixed;
+        inset: 0px;
+        width: 15rem;
+        height: 5rem;
+        max-width: 100vw;
+        max-height: 100dvh;
+        margin: auto;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px; 
+        font-family: Roboto, Helvetica, sans-serif;
+        color: #5e6d9b
+      }
+
+
+      .loginheader{
+        position: fixed;
+        inset: 0px;
+        width: 15rem;
+        height: 5rem;
+        max-width: 100vw;
+        max-height: 100dvh;
+        margin: auto;
+        align-items: right;
+        font-size: 18px; 
+        font-family: Roboto, Helvetica, sans-serif;
+        color: #5e6d9b
+      }
+
+      
+      
+      #llogo{width:200px;height:200px;position:relative;
+        margin-top:-20px;margin-bottom:-20;z-index:2}
+
+      .lines:hover {cursor: pointer;} 
+      .lines:hover .dropdown {display: block; z-index: 99;}
+
+      @media screen and (max-width: 1190px) { .menu {display: none;} .lines {display: block;}
+                #box2 {width: 90%; float: left; }
+                }
+
+                
+
+    </style>
+  </head>
+   
+  <body>
+   
+    <div class="top">
+
+      <div class="lines">
+          <br>
+          <div class="oneline"></div>
+          <br>
+          <div class="oneline"></div>
+          <br>
+          <div class="oneline"></div> 
+
+
+          <div class="dropdown">
+          <a href="#" ><b>Home</b></a>
+          <a href="#"><b>Eco-map</b></a>
+          <a href="public-pages/about.html"><b>About</b></a>
+        </div>
+      </div>
+
+      <div class="logo"> 
+        <img id="llogo" src="logo.png" height="50">
+        </div>
+
+      <div class="menu"> 
+         <a href="#" ><b>Home</b></a>
+          <a href=""><b>Eco-map</b></a>
+          <a href="public-pages/about.html"><b>About</b></a>
+      </div>
+
+      <div class="login"> 
+        <a class="button" href="public-pages/loginpage.html" 
+          target="_self"><b>Login</b></a>
+      </div>
+      <div>
+         
+        <div class='box1' style="overflow: hidden;">
+          <header>
+            <img src="map.jpeg" alt="map of mcgill">
+          </header>
+        </div>
+        <div class='box2'>
+          <header>
+            <h1>Welcome to Study Sustainably!</h1>
+            <p>Your very own portal to promoting eco-friendly initiatives and practices at McGill! Click the login button to get started!
+            </p>
+          </header>
+        </div>
+        
+      </div>
+
+</div>
+  </body>
+
+</html>

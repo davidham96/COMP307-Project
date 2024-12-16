@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<!-- Anna Henderson 261034784 !-->
+
+<html>
+  <head>
+    <title>My Dashboard</title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <style>
+      .top {
+          float: left;
+          background-color: #E0E7DA;
+          height: 90px;
+          width: 100%;
+        }
+
+        .logo {
+        float: left;
+      }
+
+      .menu {
+        display: flex;
+        float: left;
+        padding-left: 50px;
+      }
+
+      .menu a {
+      float: left;
+      display: block;
+      color: #80ab82;
+      text-align: center;
+      margin-top:18px;
+      padding: 16px 40px;
+      text-decoration: none;
+      font-size: 18px; 
+      font-family: Roboto, Helvetica, sans-serif;
+      }
+
+      .lines {
+        display: none;
+        float: left;
+        line-height: .45;
+        padding-left: 10px;
+        padding-top: 20px;
+      }
+
+      .oneline {
+        width: 35px;
+        height: 5px;
+        border-radius: 5px;
+        background-color: #5e6d9b;
+      }
+
+      .dropdown {
+        display: none;
+        position: absolute;
+        background-color: #ffffff;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        border-radius: 15px;
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      .dropdown a {
+        color: #80ab82;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        font-family: Verdana, Helvetica, sans-serif;
+        font-size: 14px;
+      }
+
+
+      .login {
+        display: absolute;
+        float: right;
+        padding-right: 50px;
+        padding-top: 20px;
+      }
+
+      .button {
+        background-color: #ffffff;
+        border: none;
+        color: #80ab82;
+        padding: 10px 28px;
+        border-radius: 15px;
+        text-align: center;
+        display: inline-block;
+        text-decoration: none;
+        font-size: 18px;
+        margin: 4px 2px;
+        cursor: pointer;
+        font-family: Roboto, Helvetica, sans-serif;
+      }
+
+      .bluebox {
+        background-color: #b7c9dc;
+        border-radius: 25px;
+      }
+
+      .main {
+        display: flex;
+        text-align: center;
+      }
+ 
+      #box1{
+        width:18%;
+        height:480px;
+        display:absolute;
+        margin: .5%;
+        float:left;
+        order: 1;
+        padding: 28px 28px;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        font-family: Roboto, Helvetica, sans-serif;
+        font-size: xx-large;
+        color: #5e6d9b;
+      }
+      #box2{
+        width:72.5%;
+        height:250px;
+        display:absolute;
+        margin: .5%;;
+        float:right;
+        order:2;
+        overflow: hidden;
+      }
+      #box3{
+        width:32%;
+        height:200px;
+        display:absolute;
+        margin: .5%;
+        float:right;
+        padding: 28px 28px;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        font-family: Roboto, Helvetica, sans-serif;
+        font-size: xx-large;
+        color: #5e6d9b;
+      }
+      #box4{
+        width:32%;
+        height:200px;
+        display:absolute;
+        margin: .5%;
+        float:right;
+        padding: 28px 28px;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        font-family: Roboto, Helvetica, sans-serif;
+        font-size: xx-large;
+        color: #5e6d9b;
+      }
+      #llogo{width:200px;height:200px;position:relative;
+        margin-top:-20px;margin-bottom:-20;z-index:2}
+
+      .lines:hover {cursor: pointer;} 
+      .lines:hover .dropdown {display: block; z-index: 99;}
+
+      @media screen and (max-width: 1190px) { .menu {display: none;} .lines {display: block;}
+      #box1{display: none;}
+      #box2{margin-left:auto; margin-right:auto; width:90%}
+      #box3{ width:41%; float:center; }
+      #box4{ width:41%; float:center;}
+                }
+      @media screen and (max-width: 700px) { 
+      #box2{margin-left:auto; margin-right:auto; width:90%}
+      #box3{ width:36%; float:center; }
+      #box4{ width:36%; float:center;}
+                }
+
+    </style>
+  </head>
+   
+  <body>
+
+    <div class="top">
+
+      <div class="lines">
+          <br>
+          <div class="oneline"></div>
+          <br>
+          <div class="oneline"></div>
+          <br>
+          <div class="oneline"></div> 
+
+
+          <div class="dropdown">
+            <a href="dashboard.html" ><b>Home</b></a>
+            <a href="/map/privateMap.html"><b>Eco-map</b></a>
+            <a href="../calendar/calendar.html"><b>My Calendar</b></a>
+            <a href="/events/events.html"><b>Events</b></a>
+            <a href="../public-pages/about.html"><b>About</b></a>
+        </div>
+      </div>
+
+      <div class="logo"> 
+        <img id="llogo" src="../logo.png" height="50">
+        </div>
+
+      <div class="menu"> 
+        <a href="dashboard.html" ><b>Home</b></a>
+        <a href="privateMap.html"><b>Eco-map</b></a>
+        <a href="../calendar/calendar.html"><b>My Calendar</b></a>
+        <a href="/events/events.html"><b>Events</b></a>
+        <a href="../public-pages/about.html"><b>About</b></a>
+      </div>
+
+      <div class="login"> 
+        <a class="button" href="../logout.php" target="_self"><b>Sign-Out</b></a>
+
+    </div>
+
+    <div id="main">
+        <div style="height:150px;">  
+        </div>
+
+    
+    <div class="bluebox" id="box2" >
+      <a href="privateMap.html" ><img id="mapthing" src="../map.jpeg" width="100%" ></a>
+        </div>
+     <div class="bluebox" id="box1" >
+      <br>
+      <br>
+      <a class="button" href="sustainabilityinfo.html" style="background-color: #b7c9dc; color: white; font-size: 30px;" 
+      target="_self"><b>More Sustainability Info!</b></a>
+      <br></br>
+      <a class="button" href="sustainibilitycourses.html" style="background-color: #b7c9dc; color: white; font-size: 30px;" 
+      target="_self"><b>Take Classes on Sustainability!</b></a>
+      </div>
+    <div class="bluebox" id="box3" >
+      <br>
+      <a class="button" href="" style="background-color: #b7c9dc; color: white; font-size: larger;" 
+      target="_self"><b>View Your Events!</b></a>
+    </div>
+    <div class="bluebox" id="box4" >
+      <br>
+      <a class="button" href="../calendar/calendar.html" style="background-color: #b7c9dc; color: white; font-size: larger;" 
+      target="_self"><b>View Your Events Calendar!</b></a>
+    </div>
+    </div>
+  </body>
+</html>

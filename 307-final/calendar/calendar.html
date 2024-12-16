@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<!-- David Hamaoui, 260985825 -->
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar Page</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 300;
+            margin: 0;
+            padding: 0;
+        }
+
+        .calendar-container {
+            display: block;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 0 10px;
+            width: 100%;
+        }
+
+        @media (max-width: 600px) {
+
+            th,
+            td {
+                font-size: 0.8em;
+                padding: 3px;
+            }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 8px solid #80ab82;
+        }
+
+        th,
+        td {
+            border: 1px solid #80ab82;
+            vertical-align: top;
+            padding: 5px;
+            position: relative;
+            height: 80px;
+            overflow: hidden;
+        }
+
+        .day-number {
+            font-size: 10px;
+            position: absolute;
+            top: 2px;
+            left: 5px;
+        }
+
+        .event-item {
+            font-size: 12px;
+            margin-top: 5px;
+            padding: 2px 5px;
+            border-radius: 5px;
+            word-wrap: break-word;
+        }
+
+        #overlay,
+        #day-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        #overlay {
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+        }
+
+        #day-modal {
+            background: #fff;
+            width: 300px;
+            max-width: 90%;
+            padding: 20px;
+            border: 4px solid #80ab82;
+            z-index: 999;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #overlay.open,
+        #day-modal.open {
+            display: block;
+            opacity: 1;
+        }
+
+        #add-event-form textarea {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        #add-event-form button {
+            margin-top: 10px;
+        }
+
+        #month-controls {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        #month-year {
+            display: inline-block;
+            margin: 0 15px;
+            font-weight: 600;
+            font-size: 1.2em;
+        }
+
+        .event-buttons button {
+            margin-right: 5px;
+            font-size: 10px;
+            padding: 2px 5px;
+            cursor: pointer;
+        }
+
+
+        .top {
+            float: left;
+            background-color: #E0E7DA;
+            height: 90px;
+            width: 100%;
+        }
+
+        .logo {
+            float: left;
+        }
+
+        .menu {
+            display: flex;
+            float: left;
+            padding-left: 50px;
+        }
+
+        .menu a {
+            float: left;
+            display: block;
+            color: #80ab82;
+            text-align: center;
+            margin-top: 18px;
+            padding: 16px 40px;
+            text-decoration: none;
+            font-size: 18px;
+            font-family: Roboto, Helvetica, sans-serif;
+        }
+
+        .lines {
+            display: none;
+            float: left;
+            line-height: .45;
+            padding-left: 10px;
+            padding-top: 20px;
+        }
+
+        .oneline {
+            width: 35px;
+            height: 5px;
+            border-radius: 5px;
+            background-color: #5e6d9b;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding-left: 5px;
+            padding-right: 5px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .dropdown a {
+            color: #80ab82;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-family: Verdana, Helvetica, sans-serif;
+            font-size: 14px;
+        }
+
+
+        .login {
+            display: absolute;
+            float: right;
+            padding-right: 50px;
+            padding-top: 20px;
+        }
+
+        .button {
+            background-color: #ffffff;
+            border: none;
+            color: #80ab82;
+            padding: 10px 28px;
+            border-radius: 15px;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 4px 2px;
+            cursor: pointer;
+            font-family: Roboto, Helvetica, sans-serif;
+        }
+
+        #llogo {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            margin-top: -20px;
+            margin-bottom: -20;
+            z-index: 2
+        }
+
+        .lines:hover {
+            cursor: pointer;
+        }
+
+        .lines:hover .dropdown {
+            display: block;
+            z-index: 99;
+        }
+
+        @media screen and (max-width: 1190px) {
+            .menu {
+                display: none;
+            }
+
+            .lines {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top">
+
+        <div class="lines">
+            <br>
+            <div class="oneline"></div>
+            <br>
+            <div class="oneline"></div>
+            <br>
+            <div class="oneline"></div>
+
+
+            <div class="dropdown">
+                <a href="../private-pages/dashboard.html" ><b>Home</b></a>
+                <a href="../private-pages/privateMap.html"><b>Eco-map</b></a>
+                <a href="calendar.html"><b>My Calendar</b></a>
+                <a href=""><b>Events</b></a>
+                <a href="../public-pages/about.html"><b>About</b></a>
+            </div>
+        </div>
+
+        <div class="logo">
+            <img id="llogo" src="../logo.png" height="50">
+        </div>
+
+        <div class="menu">
+            <a href="../private-pages/dashboard.html" ><b>Home</b></a>
+                <a href="../private-pages/privateMap.html"><b>Eco-map</b></a>
+                <a href="calendar.html"><b>My Calendar</b></a>
+                <a href=""><b>Events</b></a>
+                <a href="../public-pages/about.html"><b>About</b></a>
+        </div>
+
+        <div class="login">
+        </div>
+
+        <div style="height:150px;">
+          
+        </div>
+    <!-- Calendar -->
+    <div class="calendar-container" id="calendar-container">
+        <div id="month-controls">
+            <button id="prev-month" style="margin-right: 10px;">&#9664;</button>
+            <span id="month-year"></span>
+            <button id="next-month" style="margin-left: 10px;">&#9654;</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+            </thead>
+            <tbody id="calendar-body"></tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div id="overlay"></div>
+    <div id="day-modal">
+        <h3 id="modal-date"></h3>
+        <div id="events-list"></div>
+        <h4>Add Event</h4>
+        <form id="add-event-form">
+            <input type="hidden" id="add-event-date" name="event_date">
+            <textarea name="event_description" id="add-event-description" required></textarea><br>
+            <button type="submit">Submit</button>
+        </form>
+        <button id="close-modal-btn">Close</button>
+    </div>
+
+    <script>
+        let selectedDate = null;
+        let userEvents = [];
+        let currentDate = new Date();
+
+        // Events alternate between these colors
+        const eventColors = ["#E0E7DA", "#80AB82", "#B7C9DC"];
+
+        // Refresh events and calendar
+        function refreshCalendarAndModal(keepModalOpen = false) {
+            // Fetch events of the current user
+            fetch('calendar.php')
+                .then(response => response.json())
+                .then(events => {
+                    // Update and display the calendar
+                    userEvents = events;
+                    generateCalendar(currentDate);
+                    if (keepModalOpen) openModal(selectedDate);
+                });
+        }
+
+        // Calendar loads with events when page is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            refreshCalendarAndModal();
+        });
+
+        // Generate Calendar
+        function generateCalendar(date) {
+            const calendarBody = document.getElementById('calendar-body');
+            const monthYear = document.getElementById('month-year');
+            calendarBody.innerHTML = '';
+
+            // Display month and year
+            monthYear.textContent = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+            // Get the first day of the month and the number of days in the month
+            const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+            const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+
+            let row = document.createElement('tr');
+
+            // Add cells for the days before the first day of the month
+            for (let i = 0; i < firstDay; i++) {
+                row.appendChild(document.createElement('td'));
+            }
+
+            // Days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+
+                // If row is full, append to calendar, start new row
+                if (row.children.length === 7) {
+                    calendarBody.appendChild(row);
+                    row = document.createElement('tr');
+                }
+
+                const cell = document.createElement('td');
+                const dayNumber = document.createElement('div');
+                dayNumber.textContent = day;
+                dayNumber.className = 'day-number';
+                cell.appendChild(dayNumber);
+
+                // Format date
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const currentDay = String(day).padStart(2, '0');
+                const formattedDate = `${year}-${month}-${currentDay}`;
+
+                // Events for this date
+                const eventsForDate = userEvents.filter(e => e.event_date === formattedDate);
+                eventsForDate.forEach((event, index) => {
+                    const eventDiv = document.createElement('div');
+                    eventDiv.textContent = event.event_description;
+                    eventDiv.className = 'event-item';
+                    eventDiv.style.backgroundColor = eventColors[index % eventColors.length];
+                    cell.appendChild(eventDiv);
+                });
+
+                // Open modal if click day
+                cell.onclick = () => openModal(new Date(year, date.getMonth(), day, 12));
+                row.appendChild(cell);
+            }
+
+            // Add empty cells to the last row if needed
+            while (row.children.length < 7) {
+                row.appendChild(document.createElement('td'));
+            }
+            calendarBody.appendChild(row);
+        }
+
+        // Open Modal
+        function openModal(date) {
+            selectedDate = date;
+            document.getElementById('modal-date').textContent = date.toDateString();
+
+            // Format date
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const formattedDate = `${year}-${month}-${day}`;
+
+            // Put date in modal
+            document.getElementById('add-event-date').value = formattedDate;
+            document.getElementById('add-event-description').value = '';
+
+            const eventsList = document.getElementById('events-list');
+            eventsList.innerHTML = '';
+
+            const eventsForDate = userEvents.filter(e => e.event_date === formattedDate);
+
+            eventsForDate.forEach(event => {
+                const div = document.createElement('div');
+                div.textContent = event.event_description;
+
+                const buttonsDiv = document.createElement('div');
+                buttonsDiv.className = 'event-buttons';
+
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Edit';
+
+                // Prompt for new event description, only add if not null
+                editButton.onclick = () => {
+                    const newDescription = prompt("Edit event description:", event.event_description);
+                    if (newDescription !== null) editEvent(event.id, event.event_date, newDescription);
+                };
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+
+                // If clicked called deleteEvent
+                deleteButton.onclick = () => deleteEvent(event.id);
+
+                buttonsDiv.appendChild(editButton);
+                buttonsDiv.appendChild(deleteButton);
+
+                div.appendChild(document.createElement('br'));
+                div.appendChild(buttonsDiv);
+                eventsList.appendChild(div);
+            });
+
+            document.getElementById('overlay').classList.add('open');
+            document.getElementById('day-modal').classList.add('open');
+        }
+
+        // Close Modal
+        document.getElementById('close-modal-btn').addEventListener('click', closeModal);
+
+        // Hide modal, reset form
+        function closeModal() {
+            document.getElementById('overlay').classList.remove('open');
+            document.getElementById('day-modal').classList.remove('open');
+            document.getElementById('add-event-form').reset();
+        }
+
+        // Add Event
+        document.getElementById('add-event-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            fetch('add_events.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(() => {
+                    // Refresh calendar and close modal
+                    refreshCalendarAndModal(true);
+                    document.getElementById('add-event-form').reset();
+                });
+        });
+
+        // Edit Event
+        function editEvent(id, event_date, event_description) {
+            const formData = new FormData();
+            formData.append('id', id);
+            formData.append('event_date', event_date);
+            formData.append('event_description', event_description);
+
+            fetch('update_events.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(() => refreshCalendarAndModal(true));
+        }
+
+        // Delete Event
+        function deleteEvent(id) {
+            const formData = new FormData();
+            formData.append('id', id);
+
+            fetch('delete_events.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(() => refreshCalendarAndModal(true));
+        }
+
+        // Month Navigation
+        document.getElementById('prev-month').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            generateCalendar(currentDate);
+        });
+
+        document.getElementById('next-month').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            generateCalendar(currentDate);
+        });
+
+    </script>
+</body>
+
+</html>

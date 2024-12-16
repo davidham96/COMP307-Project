@@ -1,0 +1,449 @@
+<!-- Anna Henderson 261034784-->
+<html>
+  <head>
+    <title>Private Map</title>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.8.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+      .top {
+          float: left;
+          background-color: #E0E7DA;
+          height: 90px;
+          width: 100%;
+        }
+
+        .logo {
+        float: left;
+      }
+
+      .menu {
+        display: flex;
+        float: left;
+        padding-left: 50px;
+      }
+
+
+      .menu a {
+      float: left;
+      display: block;
+      color: #80ab82;
+      text-align: center;
+      margin-top:18px;
+      padding: 16px 40px;
+      text-decoration: none;
+      font-size: 18px; 
+      font-family: Roboto, Helvetica, sans-serif;
+      }
+
+      .lines {
+        display: none;
+        float: left;
+        line-height: .45;
+        padding-left: 10px;
+        padding-top: 20px;
+      }
+
+      .oneline {
+        width: 35px;
+        height: 5px;
+        border-radius: 5px;
+        background-color: #5e6d9b;
+      }
+
+      .dropdown {
+        display: none;
+        position: absolute;
+        background-color: #ffffff;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        border-radius: 15px;
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+
+      .dropdown a {
+        color: #80ab82;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        font-family: Verdana, Helvetica, sans-serif;
+        font-size: 14px;
+      }
+
+
+      .login {
+        display: absolute;
+        float: right;
+        padding-right: 50px;
+        padding-top: 20px;
+      }
+
+      .button {
+        background-color: #ffffff;
+        border: none;
+        color: #80ab82;
+        padding: 10px 28px;
+        border-radius: 15px;
+        text-align: center;
+        display: inline-block;
+        text-decoration: none;
+        font-size: 18px;
+        margin: 4px 2px;
+        cursor: pointer;
+        font-family: Roboto, Helvetica, sans-serif;
+      }
+
+      .bluebox {
+        background-color: #b7c9dc;
+        border-radius: 25px;
+        padding: 28px 28px;
+      }
+
+      .main {
+        display: flex;
+      }
+
+      .mapButtons {
+        position: fixed;
+        z-index: 9;
+        display: block;
+      }
+
+      .locations {
+        display: block;
+      }
+      
+      .form-popup {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        right: 15px;
+        border: 3px solid #f1f1f1;
+        z-index: 9;
+        border-radius: 15px;
+      }
+
+      .temp-form {
+        display: none;
+        border-radius: 15px;
+        position: fixed;
+        bottom: 0;
+        right: 15px;
+        border: 3px solid #f1f1f1;
+        z-index: 9;
+        background-color: white;
+        height: 220px;
+        width: 400px;
+        text-align: center;
+        padding: 10px;
+        color: #80ab82;
+        font-family: Roboto, Helvetica, sans-serif;
+      }
+      
+      .form-container {
+        max-width: 400px;
+        padding: 10px;
+        background-color: white;
+        font-family: Roboto, Helvetica, sans-serif;
+        color: #5e6d9b;
+      }
+     
+      .form-container input[type=text], .form-container input[type=password] {
+        width: 80%;
+        padding: 15px;
+        margin: 5px 0 22px 0;
+        font-family: Roboto, Helvetica, sans-serif;
+        border: none;
+        background: #E0E7DA;
+      }
+
+      /* When the inputs get focus, do something */
+      .form-container input[type=text]:focus, .form-container input[type=password]:focus {
+        background-color: #b7c9dc;
+        outline: none;
+        font-family: Roboto, Helvetica, sans-serif;
+      }
+
+      /* Set a style for the submit/login button */
+      .form-container .btn {
+        background-color: #5e6d9b;
+        color: white;
+        padding: 16px 20px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        margin-bottom:10px;
+        border-radius: 15px;
+        opacity: 0.8;
+      }
+      .temp-form .btn {
+        background-color: #5e6d9b;
+        color: white;
+        padding: 16px 20px;
+        border-radius: 15px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        margin-bottom:10px;
+        opacity: 0.8;
+      }
+
+      .form-container .cancel {
+        background-color: #80ab82;
+      }
+
+      .form-container .btn:hover, .open-button:hover {
+        opacity: 1;
+      }
+
+    
+      #llogo{width:200px;height:200px;position:relative;
+        margin-top:-20px;margin-bottom:-20;z-index:2}
+
+      .lines:hover {cursor: pointer;} 
+      .lines:hover .dropdown {display: block; z-index: 99;}
+
+      @media screen and (max-width: 1190px) { .menu {display: none;} .lines {display: block;} }
+
+    </style>
+  </head>
+   
+  <body>
+
+
+    <div class="top">
+
+      <div class="lines">
+          <br>
+          <div class="oneline"></div>
+          <br>
+          <div class="oneline"></div>
+          <br>
+          <div class="oneline"></div> 
+
+
+          <div class="dropdown">
+          <a href="dashboard.html" ><b>Home</b></a>
+          <a href="/privateMap.html"><b>Eco-map</b></a>
+          <a href="../calendar/calendar.html"><b>My Calendar</b></a>
+          <a href=""><b>Events</b></a>
+          <a href="../public-pages/about.html"><b>About</b></a>
+        </div>
+      </div>
+
+      <div class="logo"> 
+        <img id="llogo" src="../logo.png" height="50">
+        </div>
+
+      <div class="menu"> 
+        <a href="dashboard.html" ><b>Home</b></a>
+        <a href="/privateMap.html"><b>Eco-map</b></a>
+        <a href="../calendar/calendar.html"><b>My Calendar</b></a>
+        <a href=""><b>Events</b></a>
+        <a href="../public-pages/about.html"><b>About</b></a>
+      </div>
+
+      <div class="login"> 
+        <a class="button" href="../logout.php" target="_self"><b>Sign-Out</b></a>
+
+    </div>
+
+    <div id="main">
+        <div style="height:150px;">  
+        </div>
+
+        <div id='map' style='width: 80%; height: 600px; display:flex; margin-right:0; margin-left:250px; float:right; position: absolute;'></div>
+          <script>
+          mapboxgl.accessToken = 'pk.eyJ1IjoiYW5uYWpoIiwiYSI6ImNtNGhidTQzZTAyaDIyb3B6ODJobDBjb2IifQ.ygOHw-UbfsXXv7N-JQAW7Q';
+          const map = new mapboxgl.Map({
+            container: 'map', // container ID
+            style: 'mapbox://styles/annajh/cm4hd8aud00bj01rxdsj62sx0', // style URL
+            center: [-73.57826, 45.50639], 
+            zoom: 14.5, 
+          });
+          map.on('click', (event) => {
+            const features = map.queryRenderedFeatures(event.point, {
+              layers: ['waterstations', 'bikeracks-3g8f4l'] 
+            });
+            if (!features.length) {
+              return;
+            }
+            const feature = features[0];
+
+            const popup = new mapboxgl.Popup({ offset: [0, -15] })
+              .setLngLat(feature.geometry.coordinates)
+              .setHTML(
+                `<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
+              )
+            .addTo(map);
+          
+          });
+          </script>
+
+
+        <script> 
+          let fakeLocations = [];
+          function getLocationFromDB() {
+            fetch('map.php')
+                .then(response => response.json()) 
+                .then(places => {
+                  console.log(places);
+                  fakeLocations = places;
+                  console.log(fakeLocations);
+                  putAllTheFakePoints(fakeLocations);
+                });
+        }
+        getLocationFromDB();
+        let curMarkers = [];
+        function putAPoint(long, lat){
+          let a;
+          a = new mapboxgl.Marker({ color: "#5e6d9b"}).setLngLat([long,lat]).addTo(map);
+          curMarkers += a;
+        }
+
+        function putAllTheFakePoints(places){
+          places.forEach(location => {
+            let long = location.longitude;
+            let lat = location.latitude;
+            putAPoint(long, lat);
+          });
+        }
+
+
+          let wateron = true;
+          let bikeon = true;
+          let choosing = false;
+          let popup;
+          
+          function water() {
+            if (wateron){
+            map.setLayoutProperty('waterstations', 'visibility', 'none');
+              wateron = false;
+              document.getElementById("waterb").style.color = "#b7c9dc";
+            }
+            else{
+              map.setLayoutProperty('waterstations', 'visibility', 'visible');
+              wateron = true;
+              document.getElementById("waterb").style.color = "#80ab82";
+            }
+           }
+           function bike() {
+            if (bikeon){
+            map.setLayoutProperty('bikeracks-3g8f4l', 'visibility', 'none');
+            bikeon = false;
+            document.getElementById("bikeb").style.color = "#b7c9dc";
+            }
+            else{
+              map.setLayoutProperty('bikeracks-3g8f4l', 'visibility', 'visible');
+              bikeon = true;
+              document.getElementById("bikeb").style.color = "#80ab82";
+            }
+           }
+           function addLocationStart() {
+            document.getElementById("beforelocation").style.display = "block";
+            choosing = true;
+           }
+           function closeOtherForm() {
+            choosing = false;
+            document.getElementById("beforelocation").style.display = "none";
+          }
+          let coords = [0,0];
+          let long;
+          let lat;
+          function replaceforms(){
+            closeOtherForm();
+            openForm(coords);
+            map.fire('closeAllPopups');
+            document.getElementById("longitude").value = long;
+            document.getElementById("latitude").value = lat;
+          }
+            map.on('click', function(e) {
+              if (choosing){
+                var coordinates = e.lngLat;
+                coords = [coordinates.lng,coordinates.lat];
+                long = coords[0];
+                lat = coords[1];
+                popup = new mapboxgl.Popup()
+                  .setLngLat(coordinates)
+                  .setHTML(coords)
+                  .addTo(map); }
+              });
+              map.on('closeAllPopups', () => {
+                popup.remove();
+              });
+            
+
+        </script>
+
+
+         <div style="height:100px;">  
+        </div>
+        <div id="mapButtons">  
+          <a id="waterb" class="button" onclick="water()"
+            target="_blank">Water Re-fill Stations</a> <br>
+          <a id="bikeb" class="button" onclick="bike()"
+            target="_blank">Bike Racks</a>
+        
+        
+        <div id="locations">
+          <a  class="button" onclick="addLocationStart()" style="border:solid;border-color: #5e6d9b;"
+            target="_blank"><i>Add location</i></a>
+        </div>
+      </div>
+        <div class="form-popup" id="myForm">
+          <form class="form-container" id="add_location_form">
+            <h1>Add a location</h1>
+        
+            <label for="place_name"><b>Location Name</b><br></label>
+            <input type="text" placeholder="Enter Name" name="place_name" required>
+            <input id="longitude" type="hidden" name="longitude" />
+            <input id="latitude" type="hidden" name="latitude" />
+            <button type="submit" class="btn" onclick="closeForm()">Add Location</button>
+            <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+          </form>
+        </div>
+        
+        <div class="temp-form " id="beforelocation">
+          <div>
+            <h1><i>Please select the location you would like to add</i></h1>  
+            <button type="button" class="btn cancel" onclick="replaceforms()">Select this location</button>
+            <button type="button" class="btn cancel" onclick="closeOtherForm()">Close</button>
+           
+          </div> 
+        </div>
+
+        <script>
+          function openForm(coords) {
+            document.getElementById("myForm").style.display = "block";
+            long = coords[0];
+            lat = coords[1];
+          }
+          
+          function closeForm() {
+            document.getElementById("myForm").style.display = "none";
+          }
+
+          document.getElementById('add_location_form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            fetch('addlocation.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                });
+
+              putAPoint(long, lat);
+          });
+
+          </script>
+
+          
+  
+    </div>
+  </body>
+</html>

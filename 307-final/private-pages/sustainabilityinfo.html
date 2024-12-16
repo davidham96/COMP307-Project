@@ -1,0 +1,252 @@
+<!--Completed by Alannah Perera 261022433-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sustainability at McGill</title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Roboto, Helvetica, sans-serif;
+            background-color: white;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #E0E7DA;
+            padding: 10px 20px;
+            height: 90px;
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        .menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .menu a {
+            color: #80ab82;
+            text-align: center;
+            padding: 16px;
+            text-decoration: none;
+            font-size: 18px;
+            font-family: Roboto, Helvetica, sans-serif;
+        }
+
+        .lines {
+            display: none;
+            float: left;
+            line-height: .45;
+            padding-left: 10px;
+            padding-top: 20px;
+        }
+
+        .oneline {
+            width: 35px;
+            height: 5px;
+            border-radius: 5px;
+            background-color: #5e6d9b;
+        }
+
+        .button {
+            background-color: #ffffff;
+            border: none;
+            color: #80ab82;
+            padding: 10px 28px;
+            border-radius: 15px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+
+        .box {
+            width: auto;
+            min-width: 300px;
+            max-width: 400px;
+            min-height: 250px;
+            background: #b7c9dc;
+            border-radius: 25px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #5e6d9b;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+        }
+
+        .dropdown {
+        display: none;
+        position: absolute;
+        background-color: #ffffff;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        border-radius: 15px;
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        z-index:100;
+      }
+
+      .dropdown a {
+        color: #80ab82;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        font-family: Verdana, Helvetica, sans-serif;
+        font-size: 14px;
+      }
+        .box h1 {
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+         header h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        a {
+            color: #80ab82;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        body {
+            background-color: white;
+            overflow: hidden;
+        }
+
+        .box p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        #llogo{width:200px;height:200px;position:relative;
+        margin-top:-20px;margin-bottom:-20;z-index:2}
+
+      .lines:hover {cursor: pointer;} 
+      .lines:hover .dropdown {display: block; z-index: 99;}
+
+        @media screen and (max-width: 1190px) { .menu {display: none;} .lines {display: block;}}
+        @media screen and (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .top {
+                flex-direction: column;
+                height: auto;
+                padding: 20px;
+            }
+
+            .menu {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top">
+        <div class="lines">
+            <br>
+            <div class="oneline"></div>
+            <br>
+            <div class="oneline"></div>
+            <br>
+            <div class="oneline"></div> 
+  
+  
+            <div class="dropdown">
+            <a href="dashboard.html" ><b>Home</b></a>
+            <a href="privateMap.html"><b>Eco-map</b></a>
+            <a href="../calendar/calendar.html"><b>My Calendar</b></a>
+            <a href=""><b>Events</b></a>
+            <a href="../private-pages/about.html"><b>About</b></a>
+          </div>
+        </div>
+        <div class="logo"> 
+            <img id="llogo" src="../logo.png" height="50">
+            </div>
+        <div class="menu">
+            <a href="dashboard.html" ><b>Home</b></a>
+            <a href="privateMap.html"><b>Eco-map</b></a>
+            <a href="../calendar/calendar.html"><b>My Calendar</b></a>
+            <a href=""><b>Events</b></a>
+            <a href="../public-pages/about.html"><b>About</b></a>
+        </div>
+        <div class="login">
+            <a class="button" href="../logout.php" target="_self"><b>Sign-Out</b></a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="box">
+            <h1>Sustainability Certified Units at McGill</h1>
+            <p>
+                At McGill, an organization can be ranked as bronze, silver, gold, or platinum for sustainability efforts.
+                Some platinum-rated groups are IT Communications, Desautels Faculty of Management Infrastructure Team,
+                and Dobson Centre for Entrepreneurship.
+            </p>
+            <li><a href="https://www.mcgill.ca/sustainability/engage/workplace-certification" target="_blank">Check out the full list here</a>!</li>
+        </div>
+        <div class="box">
+            <h1>Sustainability Groups at McGill</h1>
+            <p>Explore groups promoting sustainability on campus:</p>
+            <ul>
+                <li><a href="https://www.ecoleproject.com/" target="_blank">ECOLE Project</a>: A living lab for sustainable living.</li>
+                <li><a href="https://www.mcgilloutdoorsclub.ca/" target="_blank">McGill Students for Sustainability</a>: Advocating for sustainability and outdoor activity.</li>
+                <li><a href="https://campuscropsmcgill.blogspot.com/" target="_blank">Campus Crops</a>: Urban agriculture collective.</li>
+                <li><a href="https://theplateclub.wixsite.com/mcgill" target="_blank">Plate Club</a>: Providing reusable dishware for events.</li>
+                <li><a href="https://greenpeacemcgill1.wixsite.com/msfgreenpeace" target="_blank">Green Peace McGill</a>: Promoting green initiatives.</li>
+            </ul>
+        </div>
+        <div class="box">
+            <h1>McGill's Sustainability Commitments</h1>
+            <p>From research to operations, sustainable solutions for local and global challenges are being innovated at all levels of our University. At the centre of these initiatives is the McGill University Climate & Sustainability Strategy 2020-2025, which invites all members of the McGill community to play a role in building a sustainable campus and world..</p>
+            <li><a href="https://www.mcgill.ca/sustainability/files/sustainability/mcgillclimatesustainability2025_-_reduced.pdf" target="_blank">Check out the full statement here</a>!</li>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,273 @@
+// Completed by Alannah Perera 261022433 
+
+
+{
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "McLennan Library",
+          "description": "1 Bike Rack - Humanities and Social Sciences Library"
+        },
+        "geometry": {
+          "coordinates": [-73.575656712296, 45.50339933950996],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Redpath Library",
+          "description": "1 Bike Rack - Humanities and Social Sciences Library"
+        },
+        "geometry": {
+          "coordinates": [-73.5773932288355,45.50470109917151],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Roddick Gates",
+          "description": "1 Bike Rack - Front Gates of McGill"
+        },
+        "geometry": {
+          "coordinates": [ -73.57459425151211, 45.50401128312934],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Chancellor Day Hall",
+          "description": "3 Bike Racks - Faculty of Law"
+        },
+        "geometry": {
+          "coordinates": [-73.58077344915786, 45.503115174598044],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Stewart Biology Building",
+          "description": "8 Water Refill Stations - Faculty of Science"
+        },
+        "geometry": {
+          "coordinates": [ -73.58066037309025, 45.50274984011393],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "McIntyre Medical Sciences Building",
+          "description": "2 Bike Racks - Faculty of Medical Science"
+        },
+        "geometry": {
+          "coordinates": [-73.5815005017528, 45.50307447012307],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Education Building",
+          "description": "1 Bike Rack - Faculty of Education"
+        },
+        "geometry": {
+          "coordinates": [-73.58029907982466, 45.50487238426762],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Leacock Building and Morrice Hall",
+          "description": "3 Bike Racks - Brutalist Building for the Facutly of Arts and Department of Islamic Studies"
+        },
+        "geometry": {
+          "coordinates": [-73.57685297753984, 45.50468139737034],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Redpath Museum",
+          "description": "10 Water Refill Stations - McGill's on campus museum"
+        },
+        "geometry": {
+          "coordinates": [-73.57677095633875, 45.50482140804367],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Ferrier Building and James Administration",
+          "description": "3 Bike Racks - University personnel and power plant"
+        },
+        "geometry": {
+          "coordinates": [ -73.57779772944792, 45.50580907137422],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Wong Building",
+          "description": "1 Bike Rack - Chemicals and Materials Engineering"
+        },
+        "geometry": {
+          "coordinates": [-73.57728274543928, 45.50580907136545],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Genome Building",
+          "description": "1 Bike Rack - Building for all your genomic needs"
+        },
+        "geometry": {
+          "coordinates": [ -73.57862055327539, 45.50722568819668],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Burnside Building",
+          "description": "3 Bike Racks - Geography, Math and Earth Sciences"
+        },
+        "geometry": {
+          "coordinates": [-73.57497337636987, 45.5047535380659],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "McConnell Engineering",
+          "description": "1 Bike Rack - Faculty of Engineering and Computer Science"
+        },
+        "geometry": {
+          "coordinates": [-73.57639981684945, 45.50612192409354],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "MacDonald-Harrington Building",
+          "description": "2 Bike Racks - School of Architecture and Urban Planning"
+        },
+        "geometry": {
+          "coordinates": [-73.5764670790116, 45.506083802843015],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Lorne M Trottier Trottier Building",
+          "description": "1 Bike Rack - SOCS and ESCE Building"
+        },
+        "geometry": {
+          "coordinates": [-73.57879290335616, 45.507777233755405],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Duff Medical Building",
+          "description": "1 Bike Rack - Medical Sciences Centre"
+        },
+        "geometry": {
+          "coordinates": [-73.58074107113028, 45.50896606930302],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Sherbrooke 680",
+          "description": "1 Bike Rack - University services, classrooms and study spaces"
+        },
+        "geometry": {
+          "coordinates": [-73.5730781303426, 45.50486419229599],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Schulich School of Music",
+          "description": "1 Bike Rack - Faculty of Music"
+        },
+        "geometry": {
+          "coordinates": [-73.575656712296, 45.50339933950996],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Birks Reading Room",
+          "description": "1 Bike Rack - Religious Studies Building"
+        },
+        "geometry": {
+          "coordinates": [ -73.57738828687332, 45.50694768034888],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Otto Maass Chemistry Building",
+          "description": "1 Bike Rack - Faculty of Science and School of Chemistry"
+        },
+        "geometry": {
+          "coordinates": [-73.57365622956276, 45.50498264009149],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Desautels School of Management",
+          "description": "2 Bike Racks - Faculty of Management, Desautels"
+        },
+        "geometry": {
+          "coordinates": [-73.57666530500445, 45.50310677002699],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Rutherford Physics",
+          "description": "1 Bike Rack - Department of Physics"
+        },
+        "geometry": {
+          "coordinates": [ -73.57857862908219, 45.50758678049989],
+          "type": "Point"
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "title": "Strathcona Dentistry and Anatomy",
+          "description": "1 Bike Rack - Sciences Building and School of Dentistry"
+        },
+        "geometry": {
+          "coordinates": [-73.5799084943535, 45.5079072476866],
+          "type": "Point"
+        }
+      }
+    ],
+    "type": "FeatureCollection"
+  }
+  

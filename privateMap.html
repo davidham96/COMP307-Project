@@ -282,17 +282,16 @@
         <script> 
           let fakeLocations = [];
           function getLocationFromDB() {
-           
             fetch('map.php')
-                .then(response => response.json())
+                .then(response => response.json()) 
                 .then(places => {
-                    
+                  console.log(places);
                   fakeLocations = places;
+                  console.log(fakeLocations);
                   putAllTheFakePoints(fakeLocations);
                 });
         }
-        getLocationFromDB()
-        
+        getLocationFromDB();
         let curMarkers = [];
         function putAPoint(long, lat){
           let a;
@@ -395,8 +394,8 @@
         
             <label for="place_name"><b>Location Name</b><br></label>
             <input type="text" placeholder="Enter Name" name="place_name" required>
-            <input id="longitude" type="hidden" name="long" />
-            <input id="latitude" type="hidden" name="lat" />
+            <input id="longitude" type="hidden" name="longitude" />
+            <input id="latitude" type="hidden" name="latitude" />
             <button type="submit" class="btn" onclick="closeForm()">Add Location</button>
             <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
           </form>

@@ -1,5 +1,5 @@
-<!-- Alannah Perera 261022433 & Anna Henderson 261034784-->
 <?php
+//Alannah Perera 261022433 & Anna Henderson 261034784
 session_start();
 include './db.php';
 

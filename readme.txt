@@ -18,5 +18,5 @@ David Hamaoui 260985825             Calendar (add_events.php, calendar.html, cal
 
 Aiden Hyun                          N/A
 
-The folder to run the project from the zip called "COMP 307 Project - main and navigate to 307-final folder. 
+The folder to run the project is from the zip called "COMP 307 Project - main and navigate to 307-final folder. 
 Import the 307-final.sql files from this folder to phpmyadmin. The website will run when index.html, found in the public-pages folder, is run on local host. 
